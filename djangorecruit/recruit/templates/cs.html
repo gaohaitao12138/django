@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/cs.css' %}">
+</head>
+<body>
+
+<div class="index01">
+  <div class="info">
+    <h3 id="title">这是一个标题</h3>
+    <p id="description">这是一段描述文字，描述了右侧的图片内容。</p><br>
+    <p id="additional-info">这是另一段描述文字</p>
+    <div class="image-list">
+      <img class="clickable" data-title="图片1标题" data-description="图片1描述" data-large-src="{% static 'img/石原里美.png' %}" src="{% static 'img/石原里美圆.png' %}" alt="图片1">
+      <img class="clickable" data-title="图片2标题" data-description="图片2描述" data-large-src="{% static 'img/草莓牛奶.jpg' %}" src="{% static 'img/石原里美圆.png' %}" alt="图片2">
+      <img class="clickable" data-title="图片3标题" data-description="图片3描述" data-large-src="{% static 'img/贝纳颂.jpg' %}" src="{% static 'img/石原里美圆.png' %}" alt="图片3">
+      <!-- 更多图片... -->
+    </div>
+  </div>
+  <div class="image">
+    <img id="main-image" src="{% static 'img/石原里美.png' %}" alt="图片描述">
+  </div>
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+  var clickableImages = document.querySelectorAll('.clickable');
+  var titleElement = document.getElementById('title');
+  var descriptionElement = document.getElementById('description');
+  var mainImageElement = document.getElementById('main-image');
+  var currentIndex = 0;
+  var autoPlayInterval = 3000;
+
+  function updateDisplay(index) {
+    // 确保索引有效
+    if (index >= clickableImages.length) {
+      index = 0;
+    }
+
+    // 移除之前图片的active类
+    if (currentIndex < clickableImages.length) {
+      clickableImages[currentIndex].classList.remove('active');
+    }
+
+    // 更新当前索引并添加active类到新图片
+    currentIndex = index;
+    clickableImages[currentIndex].classList.add('active');
+
+    // 获取并显示新图片的信息
+    var currentImage = clickableImages[index];
+    var title = currentImage.getAttribute('data-title');
+    var description = currentImage.getAttribute('data-description');
+    var largeSrc = currentImage.getAttribute('data-large-src');
+
+    titleElement.textContent = title;
+    descriptionElement.textContent = description;
+    mainImageElement.src = largeSrc;
+  }
+
+  // 设置自动轮播（如果需要）
+  var intervalId = setInterval(function() {
+    updateDisplay(currentIndex + 1); // 注意这里应该是currentIndex + 1，以确保图片切换
+  }, autoPlayInterval);
+
+  // 如果需要，可以在点击图片时停止自动轮播
+  clickableImages.forEach(function(image, index) {
+    image.addEventListener('click', function() {
+      clearInterval(intervalId); // 停止自动轮播
+      updateDisplay(index); // 显示被点击的图片信息
+    });
+  });
+
+  // 初始化显示第一张图片信息
+  updateDisplay(0);
+});
+    </script>
+</div>
+</body>
+</html>
+
+
+
+

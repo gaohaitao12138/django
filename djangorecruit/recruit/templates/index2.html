@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{#    <link rel="stylesheet" href="{% static 'css/swiper-3.4.2.min.css' %}">#}
+
+
+
+
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="element-display">
+    <div class="module-caption">
+        <img src="{% static '/img/caption_left.png' %}" class="caption-image" alt="Left Caption Image">
+        <div class="caption-text">
+            <h2>这是组件展示1</h2>
+        </div>
+        <img src="{% static '/img/caption_right.png' %}" class="caption-image" alt="Right Caption Image">
+    </div>
+</div>
+<div class="index01">
+    <div class="flex01">
+        <img class="img" src="{% static 'img/index01_1.png' %}">
+        <div class="text-part">
+            <h2>这是标题1</h2>
+            <p>我们秉持7-2-1的培养方式，以70%的实践成长，20%的良师带教，10%培训课程，给予味小宝最大的机会和挑战，</p>
+            <span>这是底部一段文字</span>
+            <a href="{% url 'position' %}" class="skip_button">立即投递</a>
+        </div>
+    </div>
+    <div class="flex01">
+        <img class="img" src="{% static 'img/index01_2.png' %}">
+        <div class="text-part">
+                <h2>这是标题2</h2>
+                <p>我们秉持7-2-1的培养方式，以70%的实践成长，20%的良师带教，10%培训课程，给予味小宝最大的机会和挑战，</p>
+                <span>这是底部一段文字</span>
+                <a href="{% url 'position' %}" class="skip_button">立即投递</a>
+        </div>
+    </div>
+    <div class="flex01">
+        <img class="img" src="{% static 'img/index01_3.png' %}">
+         <div class="text-part">
+                <h2>这是标题3</h2>
+                <p>我们秉持7-2-1的培养方式，以70%的实践成长，20%的良师带教，10%培训课程，给予味小宝最大的机会和挑战，</p>
+                <span>这是底部一段文字</span>
+                <a href="{% url 'position' %}" class="skip_button">立即投递</a>
+         </div>
+    </div>
+    <div class="flex01">
+        <img class="img" src="{% static 'img/index01_4.png' %}">
+        <div class="text-part">
+                <h2>这是标题4</h2>
+                <p>我们秉持7-2-1的培养方式，以70%的实践成长，20%的良师带教，10%培训课程，给予味小宝最大的机会和挑战，</p>
+                <span>这是底部一段文字</span>
+                <a href="{% url 'position' %}" class="skip_button">立即投递</a>
+        </div>
+    </div>
+</div>
+
+<div class="element-display">
+    <div class="module-caption">
+        <img src="{% static '/img/caption_left.png' %}" class="caption-image" alt="Left Caption Image">
+        <div class="caption-text">
+            <h2>这是组件展示2</h2>
+        </div>
+        <img src="{% static '/img/caption_right.png' %}" class="caption-image" alt="Right Caption Image">
+    </div>
+</div>
+
+
+
+
+<div class="index02">
+    <div class="zj2">
+        <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+   <!-- 指示符 -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+  </div>
+
+  <!-- 轮播图片 -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'img/index01_1.png' %}" class="d-block" style="width:100%">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/index01_2.png' %}" class="d-block" style="width:100%">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/index01_3.png' %}" class="d-block" style="width:100%">
+    </div>
+  </div>
+
+  <!-- 左右切换按钮 -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+</div>
+ </div>
+
+
+
+<img class="bottom-png" src="{% static '/img/底部.png' %}" alt="底部">
+
+
+
+</body>
+</html>

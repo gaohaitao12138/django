@@ -1,0 +1,52 @@
+
+{% load static %}
+
+{% if positions %}
+    {% for position in positions %}
+        <!-- 现有的职位列表项代码 -->
+        <div class="flex-container" data-target="expandable-content-{{ forloop.counter }}">
+            <div class="flex1">
+            <div class="preview">
+                <div class="simple">
+                    <div class="position-name">
+                        {{ position.name }}
+                    </div>
+                    <div style="display: flex">
+                        <span class="image-text-container">
+                            <img src="{% static 'img/职位.png' %}" class="inline-image">
+                            <p class="inline-text">职位类型：{{ position.job_type }}</p>
+                        </span>
+                        <span class="image-text-container">
+                            <img src="{% static 'img/地址.png' %}" class="inline-image1">
+                            <p class="inline-text">工作地点：{{ position.work_location }}</p>
+                        </span>
+                        <span class="image-text-container" style="margin-left:250px;margin-right:10px">
+                            <img src="{% static 'img/时间.png' %}" class="inline-image">
+                            <p class="inline-text">发布时间：{{ position.post_time }}</p>
+                        </span>
+                    </div>
+                    <div id="expandable-content-{{ forloop.counter }}" class="expandable-content">
+                        <div class="show-text">
+                            <h5>岗位职责:</h5>
+                            <p>{{ position.responsibility|linebreaksbr }}</p>
+                            <h5>任职要求：</h5>
+                            <p>{{ position.requirement|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <button class="zk toggle-button" data-target="expandable-content-{{ forloop.counter }}">展开详情</button>
+            <button class="sq toggle-button" data-target="expandable-content-{{ forloop.counter }}">收起详情</button>
+        </div>
+    </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="no-positions-message">
+        抱歉!暂无在招职位
+    </div>
+{% endif %}
+
+<script src="{% static 'js/position.js' %}"></script>

@@ -1,0 +1,116 @@
+{% load static %}
+{#<img class="img" src="{% static 'img/index01_1.png' %}">#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiper Irregular Shaped Slides</title>
+    <!-- 引入Swiper CSS -->
+{#    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">#}
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+{#    <script src="https://unpkg.com/swiper@8/swiper-bundle.js"> </script>#}
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"> </script>
+{#    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js.map"> </script>#}
+    <style>
+    html,
+
+    body {
+      {#position: relative;#}
+      {#height: 100%;#}
+    }
+
+    .swiper-slide {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+    }
+    .swiper-slide img {
+      display: block;
+      {#width: 200px;#}
+        height: 200px;
+    }
+    .smaller-image img {
+      height:300px ; /* 或者你想要的任何缩放比例 */
+      position: relative;
+      bottom: 80px; /* 调整这个值以改变图片向上的距离 */
+
+}
+
+
+  </style>
+</head>
+
+<body>
+<h1>测试github</h1>
+
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_1.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_2.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_3.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_4.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_1.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_2.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_3.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_4.png' %}"></div>
+      <div class="swiper-slide"><img class="img" src="{% static 'img/index01_4.png' %}"></div>
+    </div>
+     <div class="swiper-button-next"></div>
+     <div class="swiper-button-prev"></div>
+{#    <div class="swiper-pagination"></div>#}
+  </div>
+
+  <!-- Swiper -->
+
+<script>
+window.onload = function() {
+    var swiper = new Swiper(".mySwiper", {
+       slidesPerView: 3,
+            spaceBetween: 30, // 控制轮播项之间的距离，单位为px
+            loop: true, // 启用无限循环模式
+            autoplay: {
+                {#delay: 3000, // 自动切换的间隔时间，单位为毫秒#}
+                disableOnInteraction: false, // 用户操作后是否停止自动切换
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        on: {
+            slideChangeTransitionStart: function() {
+                var swiper = this;
+                var activeIndex = swiper.activeIndex;
+                var slides = swiper.slides;
+                var smallerImageClass = 'smaller-image';
+                var centerSlideIndex = activeIndex;
+                var slideCount = slides.length;
+                var slidesPerView = 3; // 根据你的配置设置这个值
+                var halfSlidesPerView = Math.floor(slidesPerView / 2);
+
+                // 移除所有幻灯片上的'smaller-image'类
+                slides.forEach(function(slide) {
+                    slide.classList.remove(smallerImageClass);
+                });
+                // 处理中间的幻灯片，确保它是正常大小
+                for (var i = centerSlideIndex - halfSlidesPerView; i <= centerSlideIndex + halfSlidesPerView; i++) {
+                    if (i >= 0 && i < slideCount) {
+                        // 根据索引与中心索引的距离来决定是否缩小图片
+                        if (i !== centerSlideIndex) {
+                            slides[i].classList.add(smallerImageClass);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>

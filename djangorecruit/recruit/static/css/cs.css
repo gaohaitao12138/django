@@ -1,0 +1,66 @@
+.index01 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  width: 85%; /* 设置Flexbox容器的宽度 */
+  height: 600px; /* 设置Flexbox容器的高度 */
+  margin: 50px auto;
+  /*border: 1px solid #000; !* 可选：设置边框以便更好地看到容器的边界 *!*/
+}
+
+.image > img {
+  height: 500px;
+  border-radius: 40px;
+  margin-bottom: 80px;
+}
+
+.info {
+  height: 500px;
+  width: 100%; /* 或者使用 flex-grow: 1; 来自动调整大小 */
+  max-width: 800px; /* 设置最大宽度以防止过大 */
+  background-color: rgba(245, 221, 93, 0.5);
+  border-radius: 40px;
+  padding-top: 20px;
+  padding-left: 30px;
+  display: flex; /* 使 .info 也成为 flex 容器 */
+  flex-direction: column; /* 设置主轴方向为垂直 */
+  justify-content: flex-start; /* 或者其他你需要的对齐方式 */
+}
+
+.image {
+  margin-left: -200px; /* 使用负外边距来向左偏移，根据需要调整值 */
+  /* 其他样式保持不变 */
+}
+
+.image-list {
+  display: flex; /* 使图片列表成为 flex 容器 */
+  gap: 10px; /* 设置图片之间的间隙 */
+  margin-top: auto; /* 将图片列表推到底部 */
+  margin-bottom: 20px;
+  margin-left: 30px; /* 注意这里的大小写，应该是小写 px */
+}
+
+.image-list img {
+  max-width: 100px; /* 设置图片的最大宽度 */
+  height: auto; /* 保持图片的宽高比 */
+}
+
+
+.clickable {
+  position: relative; /* 为伪元素提供定位参照 */
+}
+
+.clickable.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #ff0000; /* 圆环颜色 */
+  border-radius: 50%; /* 圆形边框 */
+  box-sizing: border-box;
+  z-index: 1; /* 确保圆环显示在图片上方 */
+  pointer-events: none; /* 防止圆环阻挡点击事件 */
+}

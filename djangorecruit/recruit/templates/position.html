@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>校招职位</title>
+{#    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">#}
+
+{#	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+{#    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>#}
+{#    <link rel="stylesheet" href="{% static 'css/custom.css' %}">#}
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/position.css' %}">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="element-display">
+    <div class="module-caption">
+       <img src="{% static '/img/caption_left.png' %}" class="caption-image" alt="Left Caption Image">
+        <div class="caption-text">
+            <h2>味全招聘岗位</h2>
+        </div>
+        <img src="{% static '/img/caption_right.png' %}" class="caption-image" alt="Right Caption Image">
+    </div>
+</div>
+<div class="flex">
+<div class="filter-bar">
+       <div class="filter-row">
+        <span class="filter-label" id="work_type">职能类型:</span>
+        <div class="filter-options">
+            {% for job_type in job_types %}
+                <button data-job-type="{{ job_type }}" class="job-type-btn">{{ job_type }}</button>
+            {% endfor %}
+        </div>
+    </div>
+       <div class="filter-row">
+        <span class="filter-label" id="work_place">工作地点:</span>
+        <div class="filter-options">
+            {% for work_location in work_locations %}
+                <button data-work-location="{{ work_location }}" class="work-location-btn">{{ work_location }}</button>
+            {% endfor %}
+        </div>
+    </div>
+       <div class="filter-row">
+        <input type="text" class="filter-input" placeholder="搜索岗位..." id="search-input">
+           <button id="search-btn" class="filter-btn">
+               <img  src="{% static 'img/搜索.png' %}" alt="搜索">
+           </button>
+    </div>
+    </div>
+</div>
+<div class="flex0">
+{% for position in positions %}
+    <div class="flex-container" data-target="expandable-content-{{ forloop.counter }}">
+        <div class="flex1">
+            <div class="preview">
+                <div class="simple">
+                    <div class="position-name">
+                        {{ position.name }}
+                    </div>
+                    <div style="display: flex">
+                        <span class="image-text-container">
+                            <img src="{% static 'img/职位.png' %}" class="inline-image">
+                            <p class="inline-text">职位类型：{{ position.job_type }}</p>
+                        </span>
+                        <span class="image-text-container">
+                            <img src="{% static 'img/地址.png' %}" class="inline-image1">
+                            <p class="inline-text">工作地点：{{ position.work_location }}</p>
+                        </span>
+                        <span class="image-text-container" style="margin-left:250px;margin-right:10px">
+                            <img src="{% static 'img/时间.png' %}" class="inline-image">
+                            <p class="inline-text">发布时间：{{ position.post_time }}</p>
+                        </span>
+                    </div>
+                    <div id="expandable-content-{{ forloop.counter }}" class="expandable-content">
+                        <div class="show-text">
+                            <h5>岗位职责:</h5>
+                            <p>{{ position.responsibility|linebreaksbr }}</p>
+                            <h5>任职要求：</h5>
+                            <p>{{ position.requirement|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <button class="zk toggle-button" data-target="expandable-content-{{ forloop.counter }}">展开详情</button>
+            <button class="sq toggle-button" data-target="expandable-content-{{ forloop.counter }}">收起详情</button>
+        </div>
+    </div>
+
+{% endfor %}
+
+</div>
+
+<img class="bottom-png" src="{% static '/img/底部.png' %}" alt="底部">
+<!-- 在HTML底部或在<head>标签中添加这段JavaScript代码 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    var currentJobType = null;
+    var currentWorkLocation = null;
+    // 监听职能类型按钮点击事件
+    $('.job-type-btn').click(function() {
+        // 移除所有同类型按钮的选中状态
+        $('.job-type-btn').removeClass('selected');
+        // 给当前点击的按钮添加选中状态
+        $(this).addClass('selected');
+        currentJobType = $(this).data('job-type');
+        filterPositions();
+    });
+    // 监听工作地点按钮点击事件
+    $('.work-location-btn').click(function() {
+        // 移除所有同类型按钮的选中状态
+        $('.work-location-btn').removeClass('selected');
+        // 给当前点击的按钮添加选中状态
+        $(this).addClass('selected');
+        currentWorkLocation = $(this).data('work-location');
+        filterPositions();
+    });
+
+    // 监听搜索框输入事件（这里改为一个独立的按钮来处理搜索）
+    $('#search-btn').click(function() {
+        var search_term = $('#search-input').val(); // 获取搜索框的值
+        filterPositions(search_term); // 发起请求，过滤职位，同时考虑其他筛选条件
+    });
+    // 过滤并更新职位列表的函数
+    function filterPositions(search_term) {
+        $.ajax({
+
+            url: '{% url "filter_positions" %}',  // 处理筛选请求的Django URL名称
+            method: 'GET',
+            data: {
+                job_type: currentJobType,
+                work_location: currentWorkLocation,
+                search_term: search_term || null // 如果没有提供搜索词，则发送null
+            },
+            success: function(response) {
+                // 假设响应是一个包含HTML的职位列表
+                $('.flex0').html(response['html_content']);
+                // 重置搜索框的背景色（如果需要的话）
+                $('#search-input').css('background-color', '');
+            },
+            error: function(xhr, status, error) {
+                console.error("An error occurred: " + error);
+            }
+        });
+    }
+    $('.job-type-btn:contains("全部")').addClass('selected');
+    $('.work-location-btn:contains("全部")').addClass('selected');
+    // 初始化时，给“全部”按钮添加背景色（可选）
+
+});
+</script>
+<script src="{% static 'js/position.js' %}"></script>
+
+
+
+</body>
+</html>

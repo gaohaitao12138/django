@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>校招QA</title>
+{#    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">#}
+{#    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>#}
+{#    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>#}
+{##}
+{#    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">#}
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/qa.css' %}">
+
+</head>
+
+<body>
+{% include 'navbar.html' %}
+
+<div class="element-display">
+    <div class="module-caption">
+        <img src="{% static '/img/caption_left.png' %}" class="caption-image" alt="Left Caption Image">
+        <div class="caption-text">
+            <h2>常见问答</h2>
+        </div>
+        <img src="{% static '/img/caption_right.png' %}" class="caption-image" alt="Right Caption Image">
+    </div>
+</div>
+
+<div class="container">
+    <ul class="button-list">
+        {% for category in categories %}
+            <li><button class="button" data-content-id="{{ category.pk }}" onclick="showContent(this)">{{ category.title }}</button></li>
+        {% endfor %}
+    </ul>
+</div>
+{% for category in categories %}
+    <div id="content{{ category.pk }}" class="content">
+    <ul class="text-list">
+        {% for question in category.questions.all %}
+        <li>
+            <span>{{ forloop.counter }}</span>
+            <p class="flip">{{ question.name }}</p>
+            <!-- 这里添加你的加号减号图片逻辑 -->
+            <div class="panel">{{ question.answer.text }}</div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
+
+
+
+<img class="bottom-png" src="{% static '/img/底部.png' %}" alt="底部">
+
+<script>
+function showContent(buttonElement) {
+    // 隐藏所有内容并移除所有按钮的 active 类
+    $('.content').removeClass('active');
+    $('button.button').removeClass('active-button');
+    // 从按钮的数据属性中获取内容的标识符
+    var contentId = $(buttonElement).data('content-id');
+    // 显示对应的内容并给对应的按钮添加 active-button 类
+    $('#content' + contentId).addClass('active');
+    $(buttonElement).addClass('active-button');
+}
+
+$(document).ready(function(){
+    // 初始状态下，显示第一个内容
+    var firstButton = $('button.button').first();
+    if (firstButton.length) {
+        showContent(firstButton[0]);
+    }
+
+    // 切换内容显示
+    $(".flip").click(function(){
+        var $this = $(this);
+        // 切换 .flip 的 'expanded' 类
+        $this.toggleClass('expanded');
+
+        // 找到对应的 .toggle-icons 和 .panel
+        var $toggleIcons = $this.next(".toggle-icons");
+        var $panel = $this.nextAll(".panel").first();
+
+        // 切换加号和减号的显示
+        if ($this.hasClass('expanded')) {
+            $toggleIcons.find(".jian").show();
+            $toggleIcons.find(".jia").hide();
+        } else {
+            $toggleIcons.find(".jia").show();
+            $toggleIcons.find(".jian").hide();
+        }
+
+        // 切换 .panel 的显示
+        $panel.slideToggle("slow");
+    });
+
+    // 点击加号或减号时触发对应 .flip 的点击事件
+    $(".toggle-icons").on('click', '.jia, .jian', function() {
+        $(this).parent().prev(".flip").click();
+    });
+});
+</script>
+</body>
+</html>
